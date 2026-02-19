@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,7 +8,12 @@ import {
   faBars,
 } from "@fortawesome/free-solid-svg-icons";
 
-function TopNav({ collapsed, setCollapsed }) {
+type SidebarProps = {
+  collapsed: boolean;
+  setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+function TopNav({ collapsed, setCollapsed }: SidebarProps) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 

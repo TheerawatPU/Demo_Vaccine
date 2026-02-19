@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+// import React, { useEffect } from "react";
+import { useEffect  } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,7 +10,14 @@ import {
   faClipboardList,
 } from "@fortawesome/free-solid-svg-icons";
 
-function Sidebar({ collapsed, setCollapsed }) {
+
+type SidebarProps = {
+  collapsed: boolean;
+  setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+
+function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -25,7 +33,7 @@ function Sidebar({ collapsed, setCollapsed }) {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [setCollapsed]);
 
   // 🟦 NEW MENU
   const menu = [
