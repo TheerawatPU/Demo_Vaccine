@@ -323,7 +323,7 @@ function Schedule() {
                 ></div>
 
                 <div
-                  onClick={() => openEdit(e, i)}
+                  onClick={() => openEdit(e)}
                   className={`flex flex-col sm:flex-row sm:items-center p-3 sm:p-4 rounded-xl border border-slate-100 bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5 cursor-pointer transition-all duration-200 relative overflow-hidden print:border-b print:shadow-none print:rounded-none
                     ${e.status === 'Missed' ? 'opacity-70 bg-slate-50/50 grayscale-[30%]' : ''}`}
                 >
@@ -432,7 +432,7 @@ function Schedule() {
             {showEvents.map((e, j) => (
               <div
                 key={e.id}
-                onClick={(x) => { x.stopPropagation(); openEdit(e, j); }}
+                onClick={(x) => { x.stopPropagation(); openEdit(e); }}
                 className={`relative px-2 py-1 text-[10px] sm:text-[11px] rounded border-l-[3px] truncate transition-all flex items-baseline gap-1.5 hover:brightness-95
                   ${e.status === 'Missed' ? 'opacity-60 bg-slate-100 border-slate-300 text-slate-500 line-through' : ''}`}
                 style={e.status !== 'Missed' ? { backgroundColor: hexToRgba(e.color, 0.1), borderColor: e.color } : { borderLeftWidth: '3px' }}
