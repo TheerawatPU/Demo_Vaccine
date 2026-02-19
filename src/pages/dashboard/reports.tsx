@@ -194,7 +194,7 @@ function Reports() {
                       <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{fontSize: 10, fontWeight: 700, fill: '#64748b'}} width={40} />
                       <Tooltip cursor={{fill: '#f8fafc'}} content={<CustomTooltip />} />
                       <Bar dataKey="count" radius={[0, 6, 6, 0]} barSize={10}>
-                        {TOP_10_VACCINES.map((entry, index) => (
+                        {TOP_10_VACCINES.map((_, index) => (
                           <Cell key={`cell-${index}`} fill={VAX_COLORS[index % VAX_COLORS.length]} fillOpacity={0.8} />
                         ))}
                       </Bar>

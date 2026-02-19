@@ -12,7 +12,7 @@ import {
 } from "recharts";
 
 // ===== AUTO DATA GENERATOR =====
-const generateData = (type) => {
+const generateData = (type: string) => {
   const today = new Date();
   const currentDay = today.getDate();
   const currentMonth = today.getMonth() + 1;

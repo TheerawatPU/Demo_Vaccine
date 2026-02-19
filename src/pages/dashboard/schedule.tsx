@@ -228,7 +228,7 @@ function Schedule() {
     setModalOpen(true);
   };
 
-  const openEdit = (ev: EventType, i: number) => {
+  const openEdit = (ev: EventType) => {
     setSelectedIndex(events.findIndex(e => e.id === ev.id));
     setForm(ev);
     setModalOpen(true);
