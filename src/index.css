@@ -1,0 +1,41 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.fc {
+  font-size: 13px;
+}
+
+.fc .fc-toolbar-title {
+  font-weight: 600;
+  color: #334155;
+}
+
+.fc .fc-button {
+  background: #f1f5f9;
+  border: none;
+  color: #334155;
+  padding: 4px 10px;
+}
+
+.fc .fc-button-active {
+  background: #2563eb !important;
+  color: #fff !important;
+}
+
+.fc-daygrid-event {
+  border-radius: 6px;
+  padding: 2px 4px;
+  font-size: 11px;
+}
+
+.fc-timegrid-slot {
+  height: 45px !important;
+}
+
+.fc-timegrid-event {
+  border-radius: 6px;
+  padding: 3px;
+}

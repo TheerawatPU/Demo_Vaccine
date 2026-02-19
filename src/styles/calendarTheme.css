@@ -1,0 +1,78 @@
+/* ========================= */
+/* HOSPITAL CALENDAR THEME  */
+/* ========================= */
+
+.fc {
+  font-family: "Inter", sans-serif;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 10px;
+}
+
+/* HEADER */
+.fc-toolbar-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.fc-button {
+  background: #f1f5f9 !important;
+  border: none !important;
+  color: #475569 !important;
+  border-radius: 8px !important;
+  padding: 6px 14px !important;
+  font-size: 12px !important;
+  transition: all .2s ease;
+}
+
+.fc-button:hover {
+  background: #e2e8f0 !important;
+}
+
+.fc-button-active {
+  background: #2563eb !important;
+  color: #fff !important;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+}
+
+/* DAY BOX */
+.fc-daygrid-day {
+  border: 1px solid #f1f5f9 !important;
+}
+
+.fc-daygrid-day-frame {
+  background: #f8fafc;
+  border-radius: 12px;
+  margin: 3px;
+  transition: all .15s ease;
+}
+
+.fc-daygrid-day-frame:hover {
+  background: #eef2ff;
+  cursor: pointer;
+}
+
+/* TODAY */
+.fc-day-today .fc-daygrid-day-frame {
+  background: #dbeafe !important;
+}
+
+/* EVENTS */
+.fc-event {
+  border-radius: 8px !important;
+  padding: 2px 6px !important;
+  border: none !important;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* GRID LINES */
+.fc-scrollgrid {
+  border: none !important;
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th {
+  border-color: #f1f5f9 !important;
+}
