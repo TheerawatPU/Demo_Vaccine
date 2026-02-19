@@ -313,7 +313,7 @@ function Schedule() {
           </div>
         ) : (
           <div className="flex-1 overflow-y-auto pr-2 mt-2 custom-scrollbar print:block">
-            {ev.map((e, i) => (
+            {ev.map((e) => (
               <div key={e.id} className="relative pl-8 sm:pl-12 py-3 group">
                 <div className="absolute left-[15px] sm:left-[23px] top-0 bottom-0 w-[2px] bg-slate-100 group-last:bottom-auto group-last:h-full"></div>
                 <div 
@@ -429,7 +429,7 @@ function Schedule() {
           </div>
 
           <div className="flex-1 overflow-hidden space-y-1">
-            {showEvents.map((e, j) => (
+            {showEvents.map((e) => (
               <div
                 key={e.id}
                 onClick={(x) => { x.stopPropagation(); openEdit(e); }}
