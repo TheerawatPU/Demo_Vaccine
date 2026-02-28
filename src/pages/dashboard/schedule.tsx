@@ -27,8 +27,8 @@ const colors = [
   "#f59e0b", "#ef4444", "#ec4899", "#8b5cf6"
 ];
 
-const VACCINE_LIST = ["IPV", "HBV", "BCG", "JE", "MMR", "DTP", "OPV", "Rotavirus", "Influenza (ไข้หวัดใหญ่)"];
-const DOCTOR_LIST = ["พญ.ใจดี เมตตา", "นพ.สมชาย เก่งกาจ", "พญ.รักดี ดูแล", "หมอเวร (On Call)"];
+// const VACCINE_LIST = ["IPV", "HBV", "BCG", "JE", "MMR", "DTP", "OPV", "Rotavirus", "Influenza (ไข้หวัดใหญ่)"];
+// const DOCTOR_LIST = ["พญ.ใจดี เมตตา", "นพ.สมชาย เก่งกาจ", "พญ.รักดี ดูแล", "หมอเวร (On Call)"];
 const TIME_SLOTS = ["09:00", "09:30", "10:00", "10:30", "11:00", "13:00", "13:30", "14:00", "14:30", "15:00"];
 
 const vaccineColorMap: Record<string, string> = {
