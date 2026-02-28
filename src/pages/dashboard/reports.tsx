@@ -1,5 +1,4 @@
-// import React, { useState } from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import TopNav from "../components/TopNav";
 import {
@@ -54,117 +53,138 @@ function Reports() {
   };
 
   return (
-    <div className="h-screen overflow-hidden bg-[#f8fafc] font-sans text-slate-800">
-      <div className={`fixed top-0 ${collapsed ? "left-20" : "left-64"} right-0 z-40 transition-all duration-300`}>
-        <TopNav collapsed={collapsed} setCollapsed={setCollapsed} />
-      </div>
+    <div className="flex h-screen w-full bg-[#f8fafc] font-sans text-slate-800 overflow-hidden relative">
+      
+      {/* 🟦 BACKDROP: พื้นหลังสีดำจางๆ บนมือถือเวลาเปิด Sidebar */}
+      {!collapsed && (
+        <div
+          className="md:hidden fixed inset-0 bg-black/30 z-40 transition-opacity"
+          onClick={() => setCollapsed(true)}
+        />
+      )}
 
+      {/* 🟦 SIDEBAR */}
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 
-      <div className={`${collapsed ? "ml-20" : "ml-64"} pt-20 h-full p-6 flex flex-col transition-all duration-300`}>
-        
-        <div className="flex-1 flex flex-col gap-5 min-h-0 overflow-hidden">
+      {/* 🟦 MAIN LAYOUT AREA */}
+      <div
+        className={`flex-1 flex flex-col h-full transition-all duration-300 relative
+        ${collapsed ? "md:ml-20" : "md:ml-64"}
+        ml-0`} 
+      >
+        {/* TOPNAV: ไม่ใช้ Fixed แล้ว เพื่อแก้ปัญหาเนื้อหาซ้อนทับกัน */}
+        <div className="shrink-0 z-30 relative">
+          <TopNav collapsed={collapsed} setCollapsed={setCollapsed} />
+        </div>
+
+        {/* CONTENT AREA */}
+        {/* เพิ่ม overflow-y-auto เพื่อให้จอเล็กไถขึ้นลงได้ */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 w-full flex flex-col gap-4 sm:gap-5">
           
           {/* --- HEADER & FILTER BAR --- */}
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 shrink-0 px-2">
+          {/* ปรับเป็น flex-col บนมือถือ และ flex-row บนจอใหญ่ */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shrink-0 px-1 sm:px-2">
             <div>
-              <h1 className="text-2xl font-black text-slate-900 tracking-tight">Analytical <span className="text-blue-600">Overview</span></h1>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Vaccination Performance Data</p>
+              <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Analytical <span className="text-blue-600">Overview</span></h1>
+              <p className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Vaccination Performance Data</p>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="flex bg-gray-100 rounded-full p-1 shadow-sm">
+            <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 w-full sm:w-auto">
+              <div className="flex flex-1 sm:flex-none bg-gray-100 rounded-full p-1 shadow-sm justify-between">
                 <select 
-                  className="bg-transparent text-[11px] font-bold px-3 py-1 outline-none cursor-pointer border-r border-gray-200"
+                  className="bg-transparent text-[11px] font-bold px-3 py-1 outline-none cursor-pointer border-r border-gray-200 flex-1 sm:flex-none text-center"
                   value={filter.month}
                   onChange={(e) => setFilter({...filter, month: e.target.value})}
                 >
                   <option>January</option><option>May</option>
                 </select>
                 <select 
-                  className="bg-transparent text-[11px] font-bold px-3 py-1 outline-none cursor-pointer"
+                  className="bg-transparent text-[11px] font-bold px-3 py-1 outline-none cursor-pointer flex-1 sm:flex-none text-center"
                   value={filter.year}
                   onChange={(e) => setFilter({...filter, year: e.target.value})}
                 >
                   <option>2026</option><option>2025</option>
                 </select>
               </div>
-              <button className="bg-slate-900 hover:bg-blue-600 text-white px-4 py-2 rounded-full text-[10px] font-black tracking-widest transition-all active:scale-95 shadow-sm">
-                EXPORT EXCEL
+              <button className="bg-slate-900 hover:bg-blue-600 text-white px-4 py-2 rounded-full text-[10px] font-black tracking-widest transition-all active:scale-95 shadow-sm whitespace-nowrap">
+                EXPORT
               </button>
             </div>
           </div>
 
-          {/* --- KPI ROW (4 Boxes - Dashboard UI Style) --- */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 shrink-0 h-[140px]">
+          {/* --- KPI ROW (4 Boxes) --- */}
+          {/* ปรับ Grid และเพิ่ม h-auto สำหรับจอเล็ก */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 shrink-0 sm:h-[140px]">
             {/* Box 1: จำนวนเด็กทั้งหมด */}
-            <div className="bg-white rounded-2xl border border-blue-100 shadow-sm p-5 flex items-center justify-between relative overflow-hidden group">
+            <div className="bg-white rounded-2xl border border-emerald-100 shadow-sm p-4 sm:p-5 flex items-center justify-between relative overflow-hidden group h-[120px] sm:h-auto">
               <div className="relative z-10">
-                <p className="text-xs text-gray-400">จำนวนเด็กทั้งหมด</p>
-                <h2 className="text-3xl font-semibold text-blue-600 mt-1">1,240</h2>
-                <p className="text-[10px] text-blue-400 mt-1">ลงทะเบียนในระบบ</p>
+                <p className="text-[11px] sm:text-xs text-gray-400">จำนวนเด็กทั้งหมด</p>
+                <h2 className="text-3xl font-semibold text-emerald-600 mt-1">1,240</h2>
+                <p className="text-[9px] sm:text-[10px] text-emerald-400 mt-1">ลงทะเบียนในระบบ</p>
               </div>
-              <div className="w-16 h-16 rounded-full border-[5px] border-blue-500 flex items-center justify-center relative z-10 bg-white">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-lg group-hover:scale-110 transition-transform">👶</div>
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-[4px] sm:border-[5px] border-emerald-500 flex items-center justify-center relative z-10 bg-white shrink-0">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-100 rounded-full flex items-center justify-center text-lg group-hover:scale-110 transition-transform"></div>
               </div>
-              <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-blue-50 rounded-full opacity-30 group-hover:scale-110 transition-transform"></div>
+              <div className="absolute -bottom-6 -right-6 sm:-bottom-8 sm:-right-8 w-24 h-24 sm:w-32 sm:h-32 bg-emerald-50 rounded-full opacity-30 group-hover:scale-110 transition-transform"></div>
             </div>
 
             {/* Box 2: จำนวนชนิดวัคซีน */}
-            <div className="bg-white rounded-2xl border border-blue-100 shadow-sm p-5 flex items-center justify-between relative overflow-hidden group">
+            <div className="bg-white rounded-2xl border border-amber-100 shadow-sm p-4 sm:p-5 flex items-center justify-between relative overflow-hidden group h-[120px] sm:h-auto">
               <div className="relative z-10">
-                <p className="text-xs text-gray-400">จำนวนชนิดวัคซีน</p>
-                <h2 className="text-3xl font-semibold text-blue-600 mt-1">24</h2>
-                <p className="text-[10px] text-blue-400 mt-1">ชนิดทั้งหมดที่มี</p>
+                <p className="text-[11px] sm:text-xs text-gray-400">จำนวนชนิดวัคซีน</p>
+                <h2 className="text-3xl font-semibold text-amber-600 mt-1">24</h2>
+                <p className="text-[9px] sm:text-[10px] text-amber-400 mt-1">ชนิดทั้งหมดที่มี</p>
               </div>
-              <div className="w-16 h-16 rounded-full border-[5px] border-blue-500 flex items-center justify-center relative z-10 bg-white">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-lg group-hover:scale-110 transition-transform">📦</div>
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-[4px] sm:border-[5px] border-amber-500 flex items-center justify-center relative z-10 bg-white shrink-0">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-amber-100 rounded-full flex items-center justify-center text-lg group-hover:scale-110 transition-transform"></div>
               </div>
-              <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-blue-50 rounded-full opacity-30 group-hover:scale-110 transition-transform"></div>
+              <div className="absolute -bottom-6 -right-6 sm:-bottom-8 sm:-right-8 w-24 h-24 sm:w-32 sm:h-32 bg-amber-50 rounded-full opacity-30 group-hover:scale-110 transition-transform"></div>
             </div>
 
             {/* Box 3: Attended */}
-            <div className="bg-white rounded-2xl border border-blue-100 shadow-sm p-5 flex items-center justify-between relative overflow-hidden group">
+            <div className="bg-white rounded-2xl border border-blue-100 shadow-sm p-4 sm:p-5 flex items-center justify-between relative overflow-hidden group h-[120px] sm:h-auto">
               <div className="relative z-10">
-                <p className="text-xs text-gray-400">Attended (เดือนนี้)</p>
+                <p className="text-[11px] sm:text-xs text-gray-400">Attended (เดือนนี้)</p>
                 <h2 className="text-3xl font-semibold text-blue-600 mt-1">482</h2>
-                <p className="text-[10px] text-blue-400 mt-1">+12% จากเดือนก่อน</p>
+                <p className="text-[9px] sm:text-[10px] text-blue-400 mt-1">+12% จากเดือนก่อน</p>
               </div>
-              <div className="w-16 h-16 rounded-full border-[5px] border-blue-500 flex items-center justify-center relative z-10 bg-white">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-lg group-hover:scale-110 transition-transform">✅</div>
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-[4px] sm:border-[5px] border-blue-500 flex items-center justify-center relative z-10 bg-white shrink-0">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-full flex items-center justify-center text-lg group-hover:scale-110 transition-transform"></div>
               </div>
-              <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-blue-50 rounded-full opacity-30 group-hover:scale-110 transition-transform"></div>
+              <div className="absolute -bottom-6 -right-6 sm:-bottom-8 sm:-right-8 w-24 h-24 sm:w-32 sm:h-32 bg-blue-50 rounded-full opacity-30 group-hover:scale-110 transition-transform"></div>
             </div>
 
             {/* Box 4: Missed */}
-            <div className="bg-white rounded-2xl border border-red-100 shadow-sm p-5 flex items-center justify-between relative overflow-hidden group">
+            <div className="bg-white rounded-2xl border border-red-100 shadow-sm p-4 sm:p-5 flex items-center justify-between relative overflow-hidden group h-[120px] sm:h-auto">
               <div className="relative z-10">
-                <p className="text-xs text-gray-400">Missed (เดือนนี้)</p>
+                <p className="text-[11px] sm:text-xs text-gray-400">Missed (เดือนนี้)</p>
                 <h2 className="text-3xl font-semibold text-red-500 mt-1">36</h2>
-                <p className="text-[10px] text-red-400 mt-1">+2 จากสัปดาห์ที่แล้ว</p>
+                <p className="text-[9px] sm:text-[10px] text-red-400 mt-1">+2 จากสัปดาห์ที่แล้ว</p>
               </div>
-              <div className="w-16 h-16 rounded-full border-[5px] border-red-500 flex items-center justify-center relative z-10 bg-white">
-                <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center text-lg group-hover:scale-110 transition-transform">⚠️</div>
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-[4px] sm:border-[5px] border-red-500 flex items-center justify-center relative z-10 bg-white shrink-0">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-red-100 rounded-full flex items-center justify-center text-lg group-hover:scale-110 transition-transform"></div>
               </div>
-              <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-red-50 rounded-full opacity-30 group-hover:scale-110 transition-transform"></div>
+              <div className="absolute -bottom-6 -right-6 sm:-bottom-8 sm:-right-8 w-24 h-24 sm:w-32 sm:h-32 bg-red-50 rounded-full opacity-30 group-hover:scale-110 transition-transform"></div>
             </div>
           </div>
 
           {/* --- CHARTS AREA --- */}
-          <div className="flex-1 grid grid-cols-1 lg:grid-cols-5 gap-5 min-h-0">
-            <div className="lg:col-span-3 bg-white rounded-2xl border border-sky-50 shadow-sm p-6 flex flex-col">
-                <div className="flex items-center justify-between mb-5 shrink-0">
-                   <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 text-sm">📈</div>
+          {/* เพิ่ม min-h บนมือถือ และ flex-1 md:flex-none */}
+          <div className="flex-1 flex flex-col lg:grid lg:grid-cols-5 gap-4 sm:gap-5 min-h-0">
+            {/* Area Chart */}
+            <div className="lg:col-span-3 bg-white rounded-2xl border border-sky-50 shadow-sm p-4 sm:p-6 flex flex-col min-h-[300px] lg:min-h-0 shrink-0">
+                <div className="flex items-center justify-between mb-4 sm:mb-5 shrink-0">
+                   <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 text-sm">📈</div>
                       <div>
-                        <p className="text-sm font-medium text-gray-700">Attendance Trend Analysis</p>
-                        <p className="text-[11px] text-gray-400">Monthly statistical view</p>
+                        <p className="text-xs sm:text-sm font-medium text-gray-700">Attendance Trend</p>
+                        <p className="text-[10px] sm:text-[11px] text-gray-400">Monthly statistical view</p>
                       </div>
                    </div>
                 </div>
-                <div className="flex-1 min-h-0">
+                <div className="flex-1 min-h-[200px] lg:min-h-0 w-full">
                   <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={ATTENDANCE_TREND}>
+                    <AreaChart data={ATTENDANCE_TREND} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                       <defs>
                         <linearGradient id="colorTrend" x1="0" y1="0" x2="0" y2="1">
                           <stop offset="5%" stopColor="#2563eb" stopOpacity={0.1}/>
@@ -182,14 +202,17 @@ function Reports() {
                 </div>
             </div>
 
-            <div className="lg:col-span-2 bg-white rounded-2xl border border-sky-50 shadow-sm p-6 flex flex-col overflow-hidden">
-                <div className="flex items-center gap-2 mb-5 shrink-0">
-                   <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 text-sm">📊</div>
-                   <p className="text-sm font-medium text-gray-700">Top 10 Vaccines Usage</p>
+            {/* Bar Chart */}
+            <div className="lg:col-span-2 bg-white rounded-2xl border border-sky-50 shadow-sm p-4 sm:p-6 flex flex-col min-h-[350px] lg:min-h-0 shrink-0 mb-4 sm:mb-0">
+                <div className="flex items-center gap-2 mb-4 sm:mb-5 shrink-0">
+                   <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 text-sm">📊</div>
+                   <div>
+                     <p className="text-xs sm:text-sm font-medium text-gray-700">Top 10 Vaccines</p>
+                   </div>
                 </div>
-                <div className="flex-1 min-h-0">
+                <div className="flex-1 min-h-[250px] lg:min-h-0 w-full">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={TOP_10_VACCINES} layout="vertical">
+                    <BarChart data={TOP_10_VACCINES} layout="vertical" margin={{ top: 0, right: 20, left: 0, bottom: 0 }}>
                       <XAxis type="number" hide />
                       <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{fontSize: 10, fontWeight: 700, fill: '#64748b'}} width={40} />
                       <Tooltip cursor={{fill: '#f8fafc'}} content={<CustomTooltip />} />
@@ -205,13 +228,13 @@ function Reports() {
           </div>
 
           {/* --- FOOTER --- */}
-          <div className="bg-white border border-slate-100 rounded-2xl p-3.5 flex justify-between items-center shrink-0 shadow-sm">
-             <div className="flex items-center gap-3 ml-2">
-                <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
-                <p className="text-[9px] font-black text-blue-600 uppercase tracking-[0.15em]">Analytics System Active</p>
+          <div className="bg-white border border-slate-100 rounded-xl sm:rounded-2xl p-3 sm:p-3.5 flex justify-between items-center shrink-0 shadow-sm">
+             <div className="flex items-center gap-2 sm:gap-3 ml-1 sm:ml-2">
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-blue-500 animate-pulse"></div>
+                <p className="text-[8px] sm:text-[9px] font-black text-blue-600 uppercase tracking-[0.1em] sm:tracking-[0.15em]">System Active</p>
              </div>
-             <div className="flex items-center gap-2 mr-2">
-                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Last Update: Feb 2026</p>
+             <div className="flex items-center gap-2 mr-1 sm:mr-2">
+                <p className="text-[8px] sm:text-[9px] font-bold text-slate-400 uppercase tracking-widest">Update: Feb 2026</p>
              </div>
           </div>
 

@@ -1,5 +1,4 @@
-// import React, { useState } from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import TopNav from "../components/TopNav";
 
@@ -296,11 +295,11 @@ function Schedule() {
     );
   };
 
-  const inputStyle = `w-full h-11 px-4 bg-white border border-slate-200 rounded-2xl text-[12px] font-semibold text-slate-700 hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 focus:bg-white outline-none transition-all duration-300 shadow-sm`;
-  const labelStyle = `block text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 ml-1`;
+  const inputStyle = `w-full h-10 px-4 bg-white border border-slate-200 rounded-md text-[12px] font-semibold text-slate-700 hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 focus:bg-white outline-none transition-all duration-300 `;
+  const labelStyle = `block text-[11px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 ml-1`;
 
   const renderDayView = () => {
-    const ev = getEvents(todayStr).sort((a, b) => a.time.localeCompare(b.time)); // แก้ให้ดึงข้อมูลวันนี้
+    const ev = getEvents(todayStr).sort((a, b) => a.time.localeCompare(b.time));
 
     return (
       <div className="flex flex-col h-full animate-fade-in pb-4">
@@ -399,7 +398,7 @@ function Schedule() {
     for (let i = 0; i < renderCells; i++) {
       const date = new Date(current.getFullYear(), current.getMonth(), i - startDay + 1);
       const full = date.toISOString().split("T")[0];
-      const isToday = full === todayStr; // แก้ให้เทียบกับ todayStr
+      const isToday = full === todayStr; 
       const isCurrentMonth = date.getMonth() === current.getMonth();
       const isWeekend = date.getDay() === 0 || date.getDay() === 6;
       
@@ -475,7 +474,7 @@ function Schedule() {
   };
 
   return (
-    <div className="h-screen overflow-hidden bg-[#f8fafc] font-sans text-slate-800">
+    <div className="flex h-screen w-full bg-[#f8fafc] font-sans text-slate-800 overflow-hidden relative">
       
       {/* Toast Notification */}
       <div className={`fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-[1000] transform transition-all duration-300 ease-out ${toast.show ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0 pointer-events-none"}`}>
@@ -488,62 +487,81 @@ function Schedule() {
         </div>
       </div>
 
-      <div className={`fixed top-0 ${collapsed ? "left-20" : "left-64"} right-0 z-40 transition-all duration-300 print:hidden max-md:left-0`}>
-        <TopNav collapsed={collapsed} setCollapsed={setCollapsed} />
-      </div>
+      {/* 🟦 BACKDROP: พื้นหลังสีดำจางๆ บนมือถือเวลาเปิด Sidebar */}
+      {!collapsed && (
+        <div
+          className="md:hidden fixed inset-0 bg-black/30 z-40 transition-opacity print:hidden"
+          onClick={() => setCollapsed(true)}
+        />
+      )}
 
-      <div className="print:hidden hidden md:block">
+      {/* 🟦 SIDEBAR (ลบ hidden md:block ออกเพื่อให้สไลด์เข้าออกได้) */}
+      <div className="print:hidden">
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
       </div>
 
-      <div className={`${collapsed ? "ml-20" : "ml-64"} pt-16 md:pt-20 bg-[#f8fafc] h-full p-3 sm:p-6 flex flex-col transition-all duration-300 print:ml-0 print:p-0 print:pt-0 max-md:ml-0`}>
-        <div className="flex-1 bg-white rounded-xl sm:rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5 flex flex-col min-h-0 print:border-none print:shadow-none print:rounded-none overflow-hidden">
-          
-          <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 mb-5 shrink-0 print:hidden">
-            <div className="flex bg-slate-100/80 p-1 rounded-full self-start sm:self-center shadow-inner">
-              {["day", "month"].map((v) => (
-                <button 
-                  key={v} 
-                  onClick={() => setView(v as any)} 
-                  className={`px-5 sm:px-6 py-1.5 text-[10px] sm:text-xs font-bold rounded-full transition-all duration-200 cursor-pointer uppercase tracking-wider
-                    ${view === v ? "bg-white shadow-sm text-blue-600 scale-100" : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"}`}
-                >
-                  {v}
-                </button>
-              ))}
-            </div>
+      {/* 🟦 MAIN LAYOUT AREA */}
+      <div
+        className={`flex-1 flex flex-col h-full transition-all duration-300 relative
+        ${collapsed ? "md:ml-20" : "md:ml-64"}
+        ml-0 print:ml-0`}
+      >
+        {/* TOPNAV: เปลี่ยนเป็น relative แทน fixed */}
+        <div className="shrink-0 z-30 relative print:hidden">
+          <TopNav collapsed={collapsed} setCollapsed={setCollapsed} />
+        </div>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
-              <div className="relative flex-1 sm:w-64">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                  <svg className="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+        {/* SCHEDULE CONTENT */}
+        <div className="flex-1 overflow-y-auto p-3 sm:p-6 w-full flex flex-col print:p-0 print:overflow-visible">
+          <div className="flex-1 bg-white rounded-xl sm:rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5 flex flex-col min-h-[600px] md:min-h-0 print:border-none print:shadow-none print:rounded-none overflow-hidden print:overflow-visible">
+            
+            <div className="flex flex-col xl:flex-row justify-between items-stretch xl:items-center gap-4 mb-5 shrink-0 print:hidden">
+              <div className="flex bg-slate-100/80 p-1 rounded-full self-start sm:self-center shadow-inner">
+                {["day", "month"].map((v) => (
+                  <button 
+                    key={v} 
+                    onClick={() => setView(v as any)} 
+                    className={`px-5 sm:px-6 py-1.5 text-[10px] sm:text-xs font-bold rounded-full transition-all duration-200 cursor-pointer uppercase tracking-wider
+                      ${view === v ? "bg-white shadow-sm text-blue-600 scale-100" : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"}`}
+                  >
+                    {v}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+                <div className="relative flex-1 sm:w-64">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                    <svg className="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                  </div>
+                  <input 
+                    type="text" 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="ค้นหาชื่อ, รหัส, เบอร์โทร..."
+                    className="w-full pl-9 pr-4 py-2 bg-white border border-slate-300 hover:border-slate-400 focus:bg-white rounded-xl text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium text-slate-700 shadow-sm"
+                  />
                 </div>
-                <input 
-                  type="text" 
-                  placeholder="ค้นหาชื่อ, รหัสเด็ก, เบอร์โทร..." 
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2 bg-white border border-slate-300 hover:border-slate-400 focus:bg-white rounded-xl text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium text-slate-700 placeholder-slate-400 shadow-sm"
-                />
-              </div>
 
-              <div className="flex items-center justify-between bg-white rounded-xl border border-slate-200 p-1 shadow-sm sm:w-auto">
-                <button onClick={() => changeMonth(-1)} className="w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-blue-600 rounded-lg transition-all active:scale-95">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
-                </button>
-                <h2 className="text-xs sm:text-sm font-extrabold text-slate-700 w-28 sm:w-32 text-center tracking-wide uppercase">
-                  {current.toLocaleString("en", { month: "short" })} {current.getFullYear()}
-                </h2>
-                <button onClick={() => changeMonth(1)} className="w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-blue-600 rounded-lg transition-all active:scale-95">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
-                </button>
+                <div className="flex items-center justify-between bg-white rounded-xl border border-slate-200 p-1 shadow-sm sm:w-auto">
+                  <button onClick={() => changeMonth(-1)} className="w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-blue-600 rounded-lg transition-all active:scale-95">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
+                  </button>
+                  <h2 className="text-xs sm:text-sm font-extrabold text-slate-700 w-28 sm:w-32 text-center tracking-wide uppercase">
+                    {current.toLocaleString("en", { month: "short" })} {current.getFullYear()}
+                  </h2>
+                  <button onClick={() => changeMonth(1)} className="w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-blue-600 rounded-lg transition-all active:scale-95">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="flex-1 min-h-0 overflow-hidden">
-            {view === "day" && renderDayView()}
-            {view === "month" && renderMonthView()}
+            {/* View Container: เพิ่ม flex flex-col เพื่อให้ตารางปฏิทินยืดได้สุดพื้นที่ */}
+            <div className="flex-1 min-h-0 overflow-hidden flex flex-col print:overflow-visible">
+              {view === "day" && renderDayView()}
+              {view === "month" && renderMonthView()}
+            </div>
           </div>
         </div>
       </div>
@@ -573,20 +591,20 @@ function Schedule() {
                  <div className="h-5 w-1 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.4)]"></div>
                  <p className="text-[11px] font-black text-slate-800 uppercase tracking-widest">ข้อมูลผู้ป่วย (Patient Info)</p>
               </div>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-4">
+              <div className="grid grid-cols-2 gap-x-8 gap-y-8">
                 
                 <div className="col-span-2 sm:col-span-1">
                   <label className={labelStyle}>รหัสเด็ก (Child ID)</label>
-                  <input value={form.childId} onChange={(e) => setForm({ ...form, childId: e.target.value })} className={inputStyle} placeholder="เช่น HN-10001" />
+                  <input value={form.childId} onChange={(e) => setForm({ ...form, childId: e.target.value })} className={inputStyle}  />
                 </div>
                 <div className="col-span-2 sm:col-span-1">
                   <label className={labelStyle}>เลขบัตรประชาชน (National ID)</label>
-                  <input value={form.nationalId} onChange={(e) => setForm({ ...form, nationalId: e.target.value })} maxLength={13} className={inputStyle} placeholder="เลขประจำตัว 13 หลัก" />
+                  <input value={form.nationalId} onChange={(e) => setForm({ ...form, nationalId: e.target.value })} maxLength={13} className={inputStyle}  />
                 </div>
 
                 <div className="col-span-2 sm:col-span-1">
                   <label className={labelStyle}>ชื่อ-นามสกุล เด็ก *</label>
-                  <input value={form.child} onChange={(e) => setForm({ ...form, child: e.target.value })} className={inputStyle} placeholder="ชื่อ-นามสกุล" />
+                  <input value={form.child} onChange={(e) => setForm({ ...form, child: e.target.value })} className={inputStyle}/>
                 </div>
                 <div className="col-span-2 sm:col-span-1">
                   <label className={labelStyle}>เพศ (Gender)</label>
@@ -608,7 +626,7 @@ function Schedule() {
                 </div>
                 <div className="col-span-2 sm:col-span-1">
                   <label className={labelStyle}>อายุ (คำนวณอัตโนมัติ)</label>
-                  <input type="text" readOnly value={calculateAge(form.birthDate)} className={`${inputStyle} bg-slate-50 border-slate-100 text-slate-500 cursor-default focus:ring-0 hover:border-slate-100 shadow-none`} placeholder="ระบบจะคำนวณเมื่อเลือกวันเกิด" />
+                  <input type="text" readOnly value={calculateAge(form.birthDate)} className={`${inputStyle} bg-slate-50 border-slate-100 text-slate-500 cursor-default focus:ring-0 hover:border-slate-100 shadow-none`}  />
                 </div>
               </div>
             </div>
@@ -618,24 +636,24 @@ function Schedule() {
                  <div className="h-5 w-1 bg-amber-500 rounded-full shadow-[0_0_10px_rgba(245,158,11,0.4)]"></div>
                  <p className="text-[11px] font-black text-slate-800 uppercase tracking-widest">ข้อมูลการติดต่อ (Contact Info)</p>
               </div>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-4">
+              <div className="grid grid-cols-2 gap-x-8 gap-y-8">
                 <div className="col-span-2 sm:col-span-1">
                   <label className={labelStyle}>ชื่อผู้ปกครอง (Parent Name)</label>
-                  <input value={form.parentName} onChange={(e) => setForm({ ...form, parentName: e.target.value })} className={inputStyle} placeholder="ชื่อ-นามสกุล ผู้ปกครอง" />
+                  <input value={form.parentName} onChange={(e) => setForm({ ...form, parentName: e.target.value })} className={inputStyle}/>
                 </div>
                 <div className="col-span-2 sm:col-span-1">
                   <label className={labelStyle}>เบอร์โทรศัพท์ (Phone Number)</label>
-                  <input value={form.parentPhone} onChange={(e) => setForm({ ...form, parentPhone: e.target.value })} className={inputStyle} placeholder="เช่น 081-xxx-xxxx" />
+                  <input value={form.parentPhone} onChange={(e) => setForm({ ...form, parentPhone: e.target.value })} className={inputStyle}  />
                 </div>
                 
                 <div className="col-span-2">
                   <label className={labelStyle}>LINE ID</label>
-                  <input value={form.lineId} onChange={(e) => setForm({ ...form, lineId: e.target.value })} className={inputStyle} placeholder="ไอดีไลน์สำหรับการติดต่อ" />
+                  <input value={form.lineId} onChange={(e) => setForm({ ...form, lineId: e.target.value })} className={inputStyle} />
                 </div>
 
                 <div className="col-span-2">
                   <label className={labelStyle}>ที่อยู่ (Address)</label>
-                  <textarea value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} className={`${inputStyle} h-20 p-4 resize-none`} placeholder="บ้านเลขที่, ถนน, ตำบล, อำเภอ, จังหวัด..." />
+                  <textarea value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} className={`${inputStyle} h-20 p-4 resize-none`}  />
                 </div>
               </div>
             </div>
@@ -645,14 +663,22 @@ function Schedule() {
                  <div className="h-5 w-1 bg-emerald-500 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.4)]"></div>
                  <p className="text-[11px] font-black text-slate-800 uppercase tracking-widest">รายละเอียดนัดหมาย (Appointment)</p>
               </div>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-4">
+              <div className="grid grid-cols-2 gap-x-8 gap-y-8">
                 
                 <div className="col-span-2 sm:col-span-1">
                   <label className={labelStyle}>วัคซีน (Vaccine) *</label>
                   <div className="relative">
                     <select value={form.vaccine} onChange={(e) => handleVaccineChange(e.target.value)} className={inputStyle + " appearance-none cursor-pointer"}>
                       <option value="" disabled>เลือกวัคซีน</option>
-                      {VACCINE_LIST.map(v => <option key={v} value={v}>{v}</option>)}
+                      <option value="IPV">IPV</option>
+                      <option value="HBV">HBV</option>
+                      <option value="BCG">BCG</option>
+                      <option value="JE">JE</option>
+                      <option value="MMR">MMR</option>
+                      <option value="DTP">DTP</option>
+                      <option value="OPV">OPV</option>
+                      <option value="Rotavirus">Rotavirus</option>
+                      <option value="Influenza (ไข้หวัดใหญ่)">Influenza (ไข้หวัดใหญ่)</option>
                     </select>
                     <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-slate-400">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
@@ -665,7 +691,10 @@ function Schedule() {
                   <div className="relative">
                     <select value={form.doctor} onChange={(e) => setForm({ ...form, doctor: e.target.value })} className={inputStyle + " appearance-none cursor-pointer"}>
                       <option value="" disabled>เลือกแพทย์</option>
-                      {DOCTOR_LIST.map(d => <option key={d} value={d}>{d}</option>)}
+                      <option value="พญ.ใจดี เมตตา">พญ.ใจดี เมตตา</option>
+                      <option value="นพ.สมชาย เก่งกาจ">นพ.สมชาย เก่งกาจ</option>
+                      <option value="พญ.รักดี ดูแล">พญ.รักดี ดูแล</option>
+                      <option value="หมอเวร (On Call)">หมอเวร (On Call)</option>
                     </select>
                     <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-slate-400">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
@@ -726,7 +755,7 @@ function Schedule() {
 
                 <div className="col-span-2">
                   <label className={labelStyle}>หมายเหตุ (Note)</label>
-                  <textarea value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} className={`${inputStyle} h-20 p-4 resize-none`} placeholder="อาการแพ้ยา, ข้อควรระวัง, รายละเอียดอื่นๆ..." />
+                  <textarea value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} className={`${inputStyle} h-20 p-4 resize-none`}  />
                 </div>
               </div>
             </div>

@@ -10,18 +10,6 @@ import Profile from "../src/pages/components/Profile";
 
 function App() {
   return (
-    // <BrowserRouter>
-    //   <Routes>
-    //     <Route path="/" element={<Login />} />
-    //     <Route path="/login" element={<Login />} />
-    //     <Route path="/dashboard" element={<Dashboard />} />
-    //     <Route path="/schedule" element={<Schedule />} />
-    //     <Route path="/vaccine" element={<Vaccine />} />
-    //     <Route path="/reports" element={<Reports />} />
-    //     <Route path="/attendance" element={<Attendance />} />
-    //     <Route path="/profile" element={<Profile />} />
-    //   </Routes>
-    // </BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />

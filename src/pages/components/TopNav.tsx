@@ -1,4 +1,3 @@
-// import React, { useState } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -35,8 +34,8 @@ function TopNav({ collapsed, setCollapsed }: SidebarProps) {
         </button>
 
         <div>
-          <h1 className="text-[20px] font-bold text-gray-700">Pediatric Vaccine</h1>
-          <p className="text-[8px] text-gray-400 uppercase tracking-widest">
+          <h1 className="text-[18px] md:text-[20px] font-bold text-gray-700">Pediatric Vaccine</h1>
+          <p className="text-[8px] text-gray-400 uppercase tracking-widest hidden sm:block">
             System by Administrator
           </p>
         </div>
@@ -55,18 +54,18 @@ function TopNav({ collapsed, setCollapsed }: SidebarProps) {
 
           <img
             src="https://i.pravatar.cc/40"
-            className="w-9 h-9 rounded-full border"
+            className="w-9 h-9 rounded-full border border-gray-200"
             alt=""
           />
         </div>
 
         {open && (
-          <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow">
+          <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-100">
             <div
               onClick={() => navigate("/profile")}
-              className="flex items-center px-4 py-2 text-[13px] hover:bg-blue-50 cursor-pointer"
+              className="flex items-center px-4 py-2 text-[13px] hover:bg-blue-50 cursor-pointer text-gray-700"
             >
-              <FontAwesomeIcon icon={faUser} className="mr-2 text-blue-400" />
+              <FontAwesomeIcon icon={faUser} className="mr-3 text-blue-400" />
               Profile
             </div>
 
@@ -74,11 +73,11 @@ function TopNav({ collapsed, setCollapsed }: SidebarProps) {
 
             <div
               onClick={handleLogout}
-              className="flex items-center px-4 py-2 text-[13px] hover:bg-red-50 cursor-pointer"
+              className="flex items-center px-4 py-2 text-[13px] hover:bg-red-50 cursor-pointer text-gray-700"
             >
               <FontAwesomeIcon
                 icon={faRightFromBracket}
-                className="mr-2 text-red-400"
+                className="mr-3 text-red-400"
               />
               Logout
             </div>
