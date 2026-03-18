@@ -1,9 +1,9 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3'
 
-const LINE_ACCESS_TOKEN = "oT1nCt675agM/FNwlzRpvdixFg96dOmbQoqm2GTCYmBcaLPn5nzTp48a5WX1A6SBc7kUcMIYe0UbJ2FiOLBUvbfS3uXIB3PtaCQXCF0nPZVPM7w+vwKh/Ail9U7KUx3E20oNYeDCTwWHGGSvB7ryTwdB04t89/1O/w1cDnyilFU=";
-const SUPABASE_URL = "https://tfwffqwlxxdombuzsgfy.supabase.co";
-const SUPABASE_SERVICE_KEY = "sb_secret_qlv7DxGg8G7vPcaSPoa53Q_aG5SLEKu"; 
+const LINE_ACCESS_TOKEN = Deno.env.get("LINE_ACCESS_TOKEN") ?? "";;
+const SUPABASE_URL = Deno.env.get("VITE_SUPABASE_URL") ?? "";;
+const SUPABASE_SERVICE_KEY = Deno.env.get("VITE_SUPABASE_ANON_KEY") ?? "";; 
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
