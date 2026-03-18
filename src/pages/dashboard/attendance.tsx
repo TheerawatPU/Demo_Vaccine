@@ -28,10 +28,7 @@ const FOLLOW_UP_OPTIONS = [
   { label: "ติดต่อไม่ได้", value: "Unreachable" },
 ];
 
-const CATEGORY_MAP: Record<number, string> = {
-  1: "Essential",
-  2: "Optional",
-};
+
 
 function Attendance() {
   const [collapsed, setCollapsed] = useState(false);
