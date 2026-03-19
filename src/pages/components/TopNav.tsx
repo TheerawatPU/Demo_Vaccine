@@ -34,7 +34,7 @@ function TopNav({ collapsed, setCollapsed }: SidebarProps) {
         </button>
 
         <div>
-          <h1 className="text-[18px] md:text-[20px] font-bold text-gray-700">Pediatric Vaccine</h1>
+          <h1 className="text-[18px] md:text-[20px] font-bold text-gray-700">WTU vaccine</h1>
           <p className="text-[8px] text-gray-400 uppercase tracking-widest hidden sm:block">
             System by Administrator
           </p>

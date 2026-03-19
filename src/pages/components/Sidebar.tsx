@@ -62,7 +62,7 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
         {(!collapsed || window.innerWidth < 768) && (
           <div className="flex items-baseline mx-4 whitespace-nowrap overflow-hidden">
             <span className="text-[14px] font-bold text-gray-600 mr-1">
-              Pediatric
+              WTU
             </span>
             <span className="text-[16px] font-bold text-blue-600">
               Vaccine
@@ -102,7 +102,7 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
 
       {(!collapsed || window.innerWidth < 768) && (
         <div className="px-6 py-3 border-t border-gray-100 text-[10px] text-gray-400 text-center shrink-0">
-          Pediatric Vaccine System
+          WTU vaccine System
         </div>
       )}
     </div>

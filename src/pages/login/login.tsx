@@ -49,7 +49,7 @@ function Login() {
         <div className="hidden md:block md:w-1/2 relative">
           <img src={bg} className="w-full h-full object-cover" alt="" />
           <div className="absolute inset-0 bg-gradient-to-t from-blue-800/80 to-transparent flex flex-col justify-end p-8 text-white">
-            <h1 className="text-4xl font-bold mb-1">Pediatric Vaccine</h1>
+            <h1 className="text-4xl font-bold mb-1">WTU vaccine</h1>
             <p className="text-sm opacity-90">ระบบนัดหมายวัคซีนสำหรับเด็ก</p>
           </div>
         </div>
@@ -74,7 +74,7 @@ function Login() {
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-wide text-indigo-700 mt-6 md:mt-10 mb-5">
               Welcome
               <span className="block text-xs font-medium text-indigo-500 mt-1">
-                Pediatric Vaccine System
+                WTU vaccine System
               </span>
             </h2>
 
