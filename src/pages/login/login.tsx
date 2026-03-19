@@ -1,6 +1,7 @@
 // import React, { useState } from "react";
 import { useState } from "react";
 import bg from "../../assets/bg.jpg";
+import icon_bg from "../../assets/BG_Icon.jpg"
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -61,7 +62,9 @@ function Login() {
           <div className="absolute top-4 md:top-8 w-full flex justify-center">
             <div className="w-24 h-24 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center shadow-md border">
               <img
-                src="https://img.freepik.com/free-vector/international-day-women-girls-science_1308-126213.jpg"
+                // src="https://img.freepik.com/free-vector/international-day-women-girls-science_1308-126213.jpg"
+                src={icon_bg} 
+
                 className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-2 border-blue-300 shadow"
                 alt="hospital logo"
               />
